@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="table_costumer">
+          <Key>
+            <PropertyRef Name="costumer_id" />
+          </Key>
+          <Property Name="costumer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="costumer_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="table_produk">
+          <Key>
+            <PropertyRef Name="produk_id" />
+          </Key>
+          <Property Name="produk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produk_name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="table_produk_detail">
+          <Key>
+            <PropertyRef Name="produk_detail_id" />
+          </Key>
+          <Property Name="produk_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produk_id" Type="int" Nullable="false" />
+          <Property Name="produk_detail_name" Type="varchar" MaxLength="100" />
+          <Property Name="price_per_item" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="discount" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="table_transaksi">
+          <Key>
+            <PropertyRef Name="transaksi_id" />
+          </Key>
+          <Property Name="transaksi_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produk_detail_id" Type="int" />
+          <Property Name="costumer_id" Type="int" />
+          <Property Name="tanggal" Type="date" />
+          <Property Name="qty" Type="int" />
+        </EntityType>
+        <EntityType Name="table_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_table_produk_detail_table_produk">
+          <End Role="table_produk" Type="Self.table_produk" Multiplicity="1" />
+          <End Role="table_produk_detail" Type="Self.table_produk_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="table_produk">
+              <PropertyRef Name="produk_id" />
+            </Principal>
+            <Dependent Role="table_produk_detail">
+              <PropertyRef Name="produk_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_table_transaksi_table_costumer">
+          <End Role="table_costumer" Type="Self.table_costumer" Multiplicity="0..1" />
+          <End Role="table_transaksi" Type="Self.table_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="table_costumer">
+              <PropertyRef Name="costumer_id" />
+            </Principal>
+            <Dependent Role="table_transaksi">
+              <PropertyRef Name="costumer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_table_transaksi_table_produk_detail">
+          <End Role="table_produk_detail" Type="Self.table_produk_detail" Multiplicity="0..1" />
+          <End Role="table_transaksi" Type="Self.table_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="table_produk_detail">
+              <PropertyRef Name="produk_detail_id" />
+            </Principal>
+            <Dependent Role="table_transaksi">
+              <PropertyRef Name="produk_detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SelectAllTransaksi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transaksi_id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="table_costumer" EntityType="Self.table_costumer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="table_produk" EntityType="Self.table_produk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="table_produk_detail" EntityType="Self.table_produk_detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="table_transaksi" EntityType="Self.table_transaksi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="table_user" EntityType="Self.table_user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_table_produk_detail_table_produk" Association="Self.FK_table_produk_detail_table_produk">
+            <End Role="table_produk" EntitySet="table_produk" />
+            <End Role="table_produk_detail" EntitySet="table_produk_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_table_transaksi_table_costumer" Association="Self.FK_table_transaksi_table_costumer">
+            <End Role="table_costumer" EntitySet="table_costumer" />
+            <End Role="table_transaksi" EntitySet="table_transaksi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_table_transaksi_table_produk_detail" Association="Self.FK_table_transaksi_table_produk_detail">
+            <End Role="table_produk_detail" EntitySet="table_produk_detail" />
+            <End Role="table_transaksi" EntitySet="table_transaksi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="table_costumer">
+          <Key>
+            <PropertyRef Name="costumer_id" />
+          </Key>
+          <Property Name="costumer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="costumer_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="table_transaksi" Relationship="Self.FK_table_transaksi_table_costumer" FromRole="table_costumer" ToRole="table_transaksi" />
+        </EntityType>
+        <EntityType Name="table_produk">
+          <Key>
+            <PropertyRef Name="produk_id" />
+          </Key>
+          <Property Name="produk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produk_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="table_produk_detail" Relationship="Self.FK_table_produk_detail_table_produk" FromRole="table_produk" ToRole="table_produk_detail" />
+        </EntityType>
+        <EntityType Name="table_produk_detail">
+          <Key>
+            <PropertyRef Name="produk_detail_id" />
+          </Key>
+          <Property Name="produk_detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produk_id" Type="Int32" Nullable="false" />
+          <Property Name="produk_detail_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="price_per_item" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="discount" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="table_produk" Relationship="Self.FK_table_produk_detail_table_produk" FromRole="table_produk_detail" ToRole="table_produk" />
+          <NavigationProperty Name="table_transaksi" Relationship="Self.FK_table_transaksi_table_produk_detail" FromRole="table_produk_detail" ToRole="table_transaksi" />
+        </EntityType>
+        <EntityType Name="table_transaksi">
+          <Key>
+            <PropertyRef Name="transaksi_id" />
+          </Key>
+          <Property Name="transaksi_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produk_detail_id" Type="Int32" />
+          <Property Name="costumer_id" Type="Int32" />
+          <Property Name="tanggal" Type="DateTime" Precision="0" />
+          <Property Name="qty" Type="Int32" />
+          <NavigationProperty Name="table_costumer" Relationship="Self.FK_table_transaksi_table_costumer" FromRole="table_transaksi" ToRole="table_costumer" />
+          <NavigationProperty Name="table_produk_detail" Relationship="Self.FK_table_transaksi_table_produk_detail" FromRole="table_transaksi" ToRole="table_produk_detail" />
+        </EntityType>
+        <EntityType Name="table_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_table_transaksi_table_costumer">
+          <End Role="table_costumer" Type="Self.table_costumer" Multiplicity="0..1" />
+          <End Role="table_transaksi" Type="Self.table_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="table_costumer">
+              <PropertyRef Name="costumer_id" />
+            </Principal>
+            <Dependent Role="table_transaksi">
+              <PropertyRef Name="costumer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_table_produk_detail_table_produk">
+          <End Role="table_produk" Type="Self.table_produk" Multiplicity="1" />
+          <End Role="table_produk_detail" Type="Self.table_produk_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="table_produk">
+              <PropertyRef Name="produk_id" />
+            </Principal>
+            <Dependent Role="table_produk_detail">
+              <PropertyRef Name="produk_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_table_transaksi_table_produk_detail">
+          <End Role="table_produk_detail" Type="Self.table_produk_detail" Multiplicity="0..1" />
+          <End Role="table_transaksi" Type="Self.table_transaksi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="table_produk_detail">
+              <PropertyRef Name="produk_detail_id" />
+            </Principal>
+            <Dependent Role="table_transaksi">
+              <PropertyRef Name="produk_detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DARMEX_AGROEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="table_costumer" EntityType="Self.table_costumer" />
+          <EntitySet Name="table_produk" EntityType="Self.table_produk" />
+          <EntitySet Name="table_produk_detail" EntityType="Self.table_produk_detail" />
+          <EntitySet Name="table_transaksi" EntityType="Self.table_transaksi" />
+          <EntitySet Name="table_user" EntityType="Self.table_user" />
+          <AssociationSet Name="FK_table_transaksi_table_costumer" Association="Self.FK_table_transaksi_table_costumer">
+            <End Role="table_costumer" EntitySet="table_costumer" />
+            <End Role="table_transaksi" EntitySet="table_transaksi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_table_produk_detail_table_produk" Association="Self.FK_table_produk_detail_table_produk">
+            <End Role="table_produk" EntitySet="table_produk" />
+            <End Role="table_produk_detail" EntitySet="table_produk_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_table_transaksi_table_produk_detail" Association="Self.FK_table_transaksi_table_produk_detail">
+            <End Role="table_produk_detail" EntitySet="table_produk_detail" />
+            <End Role="table_transaksi" EntitySet="table_transaksi" />
+          </AssociationSet>
+          <FunctionImport Name="SelectAllTransaksi" ReturnType="Collection(Model.SelectAllTransaksi_Result)">
+            <Parameter Name="transaksi_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SelectAllTransaksi_Result">
+          <Property Type="Int32" Name="transaksi_id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="costumer_id" Nullable="false" />
+          <Property Type="String" Name="costumer_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="address" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="produk_id" Nullable="false" />
+          <Property Type="String" Name="produk_name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="produk_detail_id" Nullable="false" />
+          <Property Type="String" Name="produk_detail_name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="qty" Nullable="true" />
+          <Property Type="Decimal" Name="harga_per_item" Nullable="true" Precision="37" Scale="0" />
+          <Property Type="Decimal" Name="hargatotal" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="DateTime" Name="tanggal" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DARMEX_AGROEntities">
+          <EntitySetMapping Name="table_costumer">
+            <EntityTypeMapping TypeName="Model.table_costumer">
+              <MappingFragment StoreEntitySet="table_costumer">
+                <ScalarProperty Name="costumer_id" ColumnName="costumer_id" />
+                <ScalarProperty Name="costumer_name" ColumnName="costumer_name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="table_produk">
+            <EntityTypeMapping TypeName="Model.table_produk">
+              <MappingFragment StoreEntitySet="table_produk">
+                <ScalarProperty Name="produk_id" ColumnName="produk_id" />
+                <ScalarProperty Name="produk_name" ColumnName="produk_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="table_produk_detail">
+            <EntityTypeMapping TypeName="Model.table_produk_detail">
+              <MappingFragment StoreEntitySet="table_produk_detail">
+                <ScalarProperty Name="produk_detail_id" ColumnName="produk_detail_id" />
+                <ScalarProperty Name="produk_id" ColumnName="produk_id" />
+                <ScalarProperty Name="produk_detail_name" ColumnName="produk_detail_name" />
+                <ScalarProperty Name="price_per_item" ColumnName="price_per_item" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="table_transaksi">
+            <EntityTypeMapping TypeName="Model.table_transaksi">
+              <MappingFragment StoreEntitySet="table_transaksi">
+                <ScalarProperty Name="transaksi_id" ColumnName="transaksi_id" />
+                <ScalarProperty Name="produk_detail_id" ColumnName="produk_detail_id" />
+                <ScalarProperty Name="costumer_id" ColumnName="costumer_id" />
+                <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="table_user">
+            <EntityTypeMapping TypeName="Model.table_user">
+              <MappingFragment StoreEntitySet="table_user">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SelectAllTransaksi" FunctionName="Model.Store.SelectAllTransaksi">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SelectAllTransaksi_Result">
+                <ScalarProperty Name="transaksi_id" ColumnName="transaksi_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="costumer_id" ColumnName="costumer_id" />
+                <ScalarProperty Name="costumer_name" ColumnName="costumer_name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="produk_id" ColumnName="produk_id" />
+                <ScalarProperty Name="produk_name" ColumnName="produk_name" />
+                <ScalarProperty Name="produk_detail_id" ColumnName="produk_detail_id" />
+                <ScalarProperty Name="produk_detail_name" ColumnName="produk_detail_name" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="harga_per_item" ColumnName="harga_per_item" />
+                <ScalarProperty Name="hargatotal" ColumnName="hargatotal" />
+                <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

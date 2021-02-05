@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="table_costumer">
+    <Key>
+      <PropertyRef Name="costumer_id" />
+    </Key>
+    <Property Name="costumer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="costumer_name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="table_produk">
+    <Key>
+      <PropertyRef Name="produk_id" />
+    </Key>
+    <Property Name="produk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="produk_name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="table_produk_detail">
+    <Key>
+      <PropertyRef Name="produk_detail_id" />
+    </Key>
+    <Property Name="produk_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="produk_id" Type="int" Nullable="false" />
+    <Property Name="produk_detail_name" Type="varchar" MaxLength="100" />
+    <Property Name="price_per_item" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="discount" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="table_transaksi">
+    <Key>
+      <PropertyRef Name="transaksi_id" />
+    </Key>
+    <Property Name="transaksi_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="produk_detail_id" Type="int" />
+    <Property Name="costumer_id" Type="int" />
+    <Property Name="tanggal" Type="date" />
+    <Property Name="qty" Type="int" />
+  </EntityType>
+  <EntityType Name="table_user">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_name" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_table_produk_detail_table_produk">
+    <End Role="table_produk" Type="Self.table_produk" Multiplicity="1" />
+    <End Role="table_produk_detail" Type="Self.table_produk_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table_produk">
+        <PropertyRef Name="produk_id" />
+      </Principal>
+      <Dependent Role="table_produk_detail">
+        <PropertyRef Name="produk_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_table_transaksi_table_costumer">
+    <End Role="table_costumer" Type="Self.table_costumer" Multiplicity="0..1" />
+    <End Role="table_transaksi" Type="Self.table_transaksi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table_costumer">
+        <PropertyRef Name="costumer_id" />
+      </Principal>
+      <Dependent Role="table_transaksi">
+        <PropertyRef Name="costumer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_table_transaksi_table_produk_detail">
+    <End Role="table_produk_detail" Type="Self.table_produk_detail" Multiplicity="0..1" />
+    <End Role="table_transaksi" Type="Self.table_transaksi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table_produk_detail">
+        <PropertyRef Name="produk_detail_id" />
+      </Principal>
+      <Dependent Role="table_transaksi">
+        <PropertyRef Name="produk_detail_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="SelectAllTransaksi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="transaksi_id" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="table_costumer" EntityType="Self.table_costumer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="table_produk" EntityType="Self.table_produk" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="table_produk_detail" EntityType="Self.table_produk_detail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="table_transaksi" EntityType="Self.table_transaksi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="table_user" EntityType="Self.table_user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_table_produk_detail_table_produk" Association="Self.FK_table_produk_detail_table_produk">
+      <End Role="table_produk" EntitySet="table_produk" />
+      <End Role="table_produk_detail" EntitySet="table_produk_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_table_transaksi_table_costumer" Association="Self.FK_table_transaksi_table_costumer">
+      <End Role="table_costumer" EntitySet="table_costumer" />
+      <End Role="table_transaksi" EntitySet="table_transaksi" />
+    </AssociationSet>
+    <AssociationSet Name="FK_table_transaksi_table_produk_detail" Association="Self.FK_table_transaksi_table_produk_detail">
+      <End Role="table_produk_detail" EntitySet="table_produk_detail" />
+      <End Role="table_transaksi" EntitySet="table_transaksi" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

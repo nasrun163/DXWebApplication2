@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DARMEX_AGROEntities">
+    <EntitySetMapping Name="table_costumer">
+      <EntityTypeMapping TypeName="Model.table_costumer">
+        <MappingFragment StoreEntitySet="table_costumer">
+          <ScalarProperty Name="costumer_id" ColumnName="costumer_id" />
+          <ScalarProperty Name="costumer_name" ColumnName="costumer_name" />
+          <ScalarProperty Name="address" ColumnName="address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="table_produk">
+      <EntityTypeMapping TypeName="Model.table_produk">
+        <MappingFragment StoreEntitySet="table_produk">
+          <ScalarProperty Name="produk_id" ColumnName="produk_id" />
+          <ScalarProperty Name="produk_name" ColumnName="produk_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="table_produk_detail">
+      <EntityTypeMapping TypeName="Model.table_produk_detail">
+        <MappingFragment StoreEntitySet="table_produk_detail">
+          <ScalarProperty Name="produk_detail_id" ColumnName="produk_detail_id" />
+          <ScalarProperty Name="produk_id" ColumnName="produk_id" />
+          <ScalarProperty Name="produk_detail_name" ColumnName="produk_detail_name" />
+          <ScalarProperty Name="price_per_item" ColumnName="price_per_item" />
+          <ScalarProperty Name="discount" ColumnName="discount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="table_transaksi">
+      <EntityTypeMapping TypeName="Model.table_transaksi">
+        <MappingFragment StoreEntitySet="table_transaksi">
+          <ScalarProperty Name="transaksi_id" ColumnName="transaksi_id" />
+          <ScalarProperty Name="produk_detail_id" ColumnName="produk_detail_id" />
+          <ScalarProperty Name="costumer_id" ColumnName="costumer_id" />
+          <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="table_user">
+      <EntityTypeMapping TypeName="Model.table_user">
+        <MappingFragment StoreEntitySet="table_user">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SelectAllTransaksi" FunctionName="Model.Store.SelectAllTransaksi">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.SelectAllTransaksi_Result">
+          <ScalarProperty Name="transaksi_id" ColumnName="transaksi_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="costumer_id" ColumnName="costumer_id" />
+          <ScalarProperty Name="costumer_name" ColumnName="costumer_name" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="produk_id" ColumnName="produk_id" />
+          <ScalarProperty Name="produk_name" ColumnName="produk_name" />
+          <ScalarProperty Name="produk_detail_id" ColumnName="produk_detail_id" />
+          <ScalarProperty Name="produk_detail_name" ColumnName="produk_detail_name" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+          <ScalarProperty Name="harga_per_item" ColumnName="harga_per_item" />
+          <ScalarProperty Name="hargatotal" ColumnName="hargatotal" />
+          <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>
